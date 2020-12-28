@@ -11,4 +11,5 @@ def signupuser(request):
             user = User.objects.create_user(username=request.POST['username'],password=request.POST['password1']) #create a User object with the given username and password
             user.save() #save the user object in the database
         else: #if the two passwords do not match
-            print("Error: Password not matched.")
+            return render(request,'todo/signupuser.html',{'form':UserCreationForm(),'error':'Passwords do not match! Try again.'}) #we pass the 'password not matched' error to the page to display it
+            
