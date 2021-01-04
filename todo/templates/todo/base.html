@@ -4,9 +4,12 @@
         <title></title>
     </head>
     <body>
-        {% if user.is_authenticated %}
-        <h3> Welcome {{ user.username }}!</h3> 
-        <button type='submit'>Logout</button>
+        {% if user.is_authenticated %} <!--if the user object is authenticated (or logged in)-->
+        <h3> Welcome {{ user.username }}!</h3> <!--Displays the username attribute of the user object-->
+        <form action="{% url 'logoutuser' %}" method="POST"> <!--This will make a POST to the logoutuser view in urls.py-->
+            {% csrf_token %}
+            <button type='submit'>Logout</button>
+        </form>
         <br>
         {% else %}
         <button type='submit'>Sign Up</button>

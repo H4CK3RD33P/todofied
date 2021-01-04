@@ -23,6 +23,8 @@ urlpatterns = [
     #Authorisation
     ##sign-up
     path('signup/',views.signupuser,name='signupuser'),
+    ##log out
+    path('logout/',views.logoutuser,name='logoutuser'),
 
     #todos
     path('current/',views.current_todos,name='current_todos'),

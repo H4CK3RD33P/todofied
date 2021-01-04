@@ -4,6 +4,7 @@ from django.contrib.auth.models import User #this will import the built-in User 
 from django.db import IntegrityError #this will import Django's built-in DB exception which makes sure that usernames are unique
 from django.contrib.auth import login #this will import Djnago's login function which will let the user log in
 from django.shortcuts import redirect #this will import Django's redirect function which will redirect to a different function
+from django.contrib.auth import logout #this will import Django's redirect function which will log out the user.
 # Create your views here.
 
 def home(request):
@@ -27,3 +28,8 @@ def signupuser(request):
             
 def current_todos(request):
     return render(request,'todo/current_todos.html')
+
+def logoutuser(request):
+    if request.method=='POST': #if the method is POST then log out the user and redirect him/her to the home
+        logout(request)
+        return redirect('home')
