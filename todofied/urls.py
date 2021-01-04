@@ -18,6 +18,8 @@ from django.urls import path
 from todo import views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #home
+    path('',views.home,name='home'),
     #Authorisation
     ##sign-up
     path('signup/',views.signupuser,name='signupuser'),

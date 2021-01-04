@@ -5,6 +5,10 @@ from django.db import IntegrityError #this will import Django's built-in DB exce
 from django.contrib.auth import login #this will import Djnago's login function which will let the user log in
 from django.shortcuts import redirect #this will import Django's redirect function which will redirect to a different function
 # Create your views here.
+
+def home(request):
+    return render(request,'todo/home.html')
+
 def signupuser(request): 
     if request.method == "GET": #this will happen when a user opens the signup/ path 
         #We are creating an instance of UserCreationForm (sign-up form) and passing it to the template
