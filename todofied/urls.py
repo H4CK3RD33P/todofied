@@ -23,6 +23,8 @@ urlpatterns = [
     #Authorisation
     ##sign-up
     path('signup/',views.signupuser,name='signupuser'),
+    ##sign-in
+    path('login/',views.loginuser,name='loginuser'),
     ##log out
     path('logout/',views.logoutuser,name='logoutuser'),
 

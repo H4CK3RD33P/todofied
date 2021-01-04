@@ -12,8 +12,12 @@
         </form>
         <br>
         {% else %}
-        <button type='submit'>Sign Up</button>
-        <button type='submit'>Log in</button>
+        <form action="{% url 'signupuser' %}">
+            <button type='submit'>Sign Up</button>
+        </form>
+        <form action="{% url 'loginuser' %}">
+            <button type='submit'>Log in</button>
+        </form>
         <br>
         {% endif %}
 
