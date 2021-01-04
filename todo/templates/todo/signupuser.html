@@ -1,3 +1,5 @@
+{% extends 'todo/base.html'%}
+{% block content %}
 <h1>Sign Up!</h1>
 <h3 style='color: red'>{{ error }}</h3>
 <form method="post">
@@ -7,3 +9,4 @@
 {{form.as_p}}
 <button type="submit">Sign Up</button>
 </form>
+{% endblock %}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+        <h3> Welcome {{ user.username }}!</h3> 
+        <button type='submit'>Logout</button>
+        <br>
+        {% else %}
+        <button type='submit'>Sign Up</button>
+        <button type='submit'>Log in</button>
+        <br>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </body>
+</html>
