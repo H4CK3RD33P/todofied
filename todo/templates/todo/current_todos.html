@@ -1,4 +1,21 @@
 {% extends 'todo/base.html'%}
 {% block content %}
 <h1>Your To-dos!</h1>
+<ul>
+    {% for todo in todos %}
+    <li>
+        {% if todo.important %} <!--If the todo is marked as important then make it bold-->
+        <strong>{{ todo.title }}</strong>
+        {% else %} <!--Else don't make it bold-->
+        {{ todo.title }}
+        {% endif %}
+        {% if todo.memo %} <!--If there is some additional information then display it-->
+        - {{ todo.memo }}
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+<form action="{% url 'create_todo' %}">
+    <button type="submit">Create To-Do!</button> <!--Go to the create todos page-->
+</form>
 {% endblock %}

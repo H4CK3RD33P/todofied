@@ -8,6 +8,7 @@ from django.contrib.auth import login #this will import Djnago's login function 
 from django.contrib.auth import logout #this will import Django's redirect function which will log out the user.
 from django.contrib.auth import authenticate #this will import Django's authenticate function which will let the user log in.
 from .forms import TodoForm #this imports the TodoForm which will be passed to create/ through create_todo()
+from .models import Todo #this imports the Todo model class
 # Create your views here.
 
 def home(request):
@@ -43,7 +44,8 @@ def create_todo(request):
             return render(request,'todo/create_todo.html',{'form':TodoForm(),'error':'Bad Data Passed.'})
 
 def current_todos(request):
-    return render(request,'todo/current_todos.html')
+    todos = Todo.objects.filter(user=request.user,completed__isnull=True) #Only take those objects whose user attribute matches the current logged in user (Other users cannot see todo objects not created by them) and completed__isnull = True means if the completed field is null i.e not yet completed
+    return render(request,'todo/current_todos.html',{'todos':todos})
 
 def loginuser(request):
     if request.method=="GET":

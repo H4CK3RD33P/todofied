@@ -9,4 +9,7 @@
 {{form.as_p}}
 <button type="submit">Save</button>
 </form>
+<form action="{% url 'current_todos' %}">
+    <button type="submit">Cancel</button> <!--Go back to the current todos page-->
+</form>
 {% endblock %}
