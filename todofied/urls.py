@@ -27,8 +27,9 @@ urlpatterns = [
     path('login/',views.loginuser,name='loginuser'),
     ##log out
     path('logout/',views.logoutuser,name='logoutuser'),
-
-    #todos
+    #create todos
+    path('create/',views.create_todo,name='create_todo'),
+    #view todos
     path('current/',views.current_todos,name='current_todos'),
     
 ]

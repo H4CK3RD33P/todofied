@@ -7,6 +7,7 @@ from django.db import IntegrityError #this will import Django's built-in DB exce
 from django.contrib.auth import login #this will import Djnago's login function which will let the user log in
 from django.contrib.auth import logout #this will import Django's redirect function which will log out the user.
 from django.contrib.auth import authenticate #this will import Django's authenticate function which will let the user log in.
+from .forms import TodoForm #this imports the TodoForm which will be passed to create/ through create_todo()
 # Create your views here.
 
 def home(request):
@@ -27,7 +28,20 @@ def signupuser(request):
                 return render(request,'todo/signupuser.html',{'form':UserCreationForm(),'error':'Username already exists! Try again.'}) #if the username is not unique in the db then this error message is returned
         else: #if the two passwords do not match
             return render(request,'todo/signupuser.html',{'form':UserCreationForm(),'error':'Passwords do not match! Try again.'}) #we pass the 'password not matched' error to the page to display it
-            
+
+def create_todo(request):
+    if request.method == 'GET':
+        return render(request,'todo/create_todo.html',{'form':TodoForm()}) #pass the todo form
+    else:
+        try:
+            form = TodoForm(request.POST) #stores all the info coming from the form posted.
+            newtodo = form.save(commit=False) #saves it to the database WITHOUT COMMIT
+            newtodo.user = request.user #adds the user (WHO IS CURRENTLY LOGGED IN)
+            newtodo.save() #Again saves the object to the database WITH COMMIT! Final SAVE.
+            return redirect('current_todos') #redirects the user to his/her todo list page. i.e current/
+        except ValueError:
+            return render(request,'todo/create_todo.html',{'form':TodoForm(),'error':'Bad Data Passed.'})
+
 def current_todos(request):
     return render(request,'todo/current_todos.html')
 

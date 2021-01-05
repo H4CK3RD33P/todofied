@@ -1,0 +1,12 @@
+{% extends 'todo/base.html'%}
+{% block content %}
+<h1>Create Todo!</h1>
+<h3 style='color: red'>{{ error }}</h3>
+<form method="post">
+<!--This is to bypass Django's CSRF mechanism-->
+{% csrf_token %}
+<!--we are simply displaying the form and .as_p says that everything should be in structured way-->
+{{form.as_p}}
+<button type="submit">Save</button>
+</form>
+{% endblock %}
