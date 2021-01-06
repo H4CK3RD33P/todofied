@@ -2,4 +2,12 @@
 {% block content %}
 <h1>WELCOME TO TODOFIED!</h1>
 <h4>By Subhodeep Sarkar</h4>
+{% if user.is_authenticated %} <!--if the user is logged in show him/her the button to go to different urls-->
+<form action="{% url 'create_todo' %}">
+    <button type="submit">Create To-Do!</button> <!--Go to the create todos page-->
+</form>
+<form action="{% url 'current_todos' %}">
+    <button type="submit">Your To-Dos!</button> <!--Go to the current todos page-->
+</form>
+{% endif %}
 {% endblock %}

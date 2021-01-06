@@ -29,7 +29,8 @@ urlpatterns = [
     path('logout/',views.logoutuser,name='logoutuser'),
     #create todos
     path('create/',views.create_todo,name='create_todo'),
-    #view todos
+    #view all todos
     path('current/',views.current_todos,name='current_todos'),
-    
+    #view,edit and save a todo
+    path('todo/<int:todo_pk>',views.view_todo,name='view_todo'), #takes primary key of the todo object as an url argument
 ]

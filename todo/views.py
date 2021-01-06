@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect #this will import Django's redirect function which will redirect to a different function
 from django.contrib.auth.forms import UserCreationForm # this will include Django's built-in sign-up form template class.
 from django.contrib.auth.forms import AuthenticationForm #this will include Django's built-in log-in form
@@ -47,6 +47,19 @@ def current_todos(request):
     todos = Todo.objects.filter(user=request.user,completed__isnull=True) #Only take those objects whose user attribute matches the current logged in user (Other users cannot see todo objects not created by them) and completed__isnull = True means if the completed field is null i.e not yet completed
     return render(request,'todo/current_todos.html',{'todos':todos})
 
+def view_todo(request,todo_pk):
+    todo = get_object_or_404(Todo,pk=todo_pk,user=request.user) #fetch a todo object from the database if the PK of todo is valid and if the object's user is the same as the user currently logged in.
+    if request.method=='GET':
+        form = TodoForm(instance=todo) #create a form for the given todo object with existing data.
+        return render(request,'todo/view_todo.html',{'todo':todo,'form':form}) #pass the todo object as well as the form
+    else:
+        try:
+            form = TodoForm(request.POST,instance=todo) #get all the modified data of the existing todo object from the form posted.
+            form.save() #save it in the database.
+            return redirect('current_todos') #redirect the user to the current todos page.
+        except ValueError:
+            return render(request,'todo/view_todo.html',{'todo':todo,'form':form,'error':'Bad data passed in.'}) #if there is an error then pass it to the view_todo page.
+            
 def loginuser(request):
     if request.method=="GET":
         return render(request,'todo/loginuser.html',{'form':AuthenticationForm()}) #pass login form to the page.

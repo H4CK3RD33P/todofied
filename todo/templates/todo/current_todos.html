@@ -4,6 +4,7 @@
 <ul>
     {% for todo in todos %}
     <li>
+        <a href="{% url 'view_todo' todo.id %}"> <!--if the todo is clicked it will open the view/edit page for itself, todo.id is passed an argument to the url view_todo-->
         {% if todo.important %} <!--If the todo is marked as important then make it bold-->
         <strong>{{ todo.title }}</strong>
         {% else %} <!--Else don't make it bold-->
@@ -12,6 +13,7 @@
         {% if todo.memo %} <!--If there is some additional information then display it-->
         - {{ todo.memo }}
         {% endif %}
+        </a>
     </li>
     {% endfor %}
 </ul>
