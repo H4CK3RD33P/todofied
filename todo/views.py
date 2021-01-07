@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate #this will import Django's authenti
 from .forms import TodoForm #this imports the TodoForm which will be passed to create/ through create_todo()
 from .models import Todo #this imports the Todo model class
 from django.utils import timezone #imports Django's timezone module which has timezone related functions and classes.
+from django.contrib.auth.decorators import login_required #imports Django's built in Decorator that does not allows the user to access certain pages unless he/she is logged in. We just put it above the functions for which we want the users to be logged in.
 # Create your views here.
 
 def home(request):
@@ -31,6 +32,7 @@ def signupuser(request):
         else: #if the two passwords do not match
             return render(request,'todo/signupuser.html',{'form':UserCreationForm(),'error':'Passwords do not match! Try again.'}) #we pass the 'password not matched' error to the page to display it
 
+@login_required
 def create_todo(request):
     if request.method == 'GET':
         return render(request,'todo/create_todo.html',{'form':TodoForm()}) #pass the todo form
@@ -44,10 +46,12 @@ def create_todo(request):
         except ValueError:
             return render(request,'todo/create_todo.html',{'form':TodoForm(),'error':'Bad Data Passed.'})
 
+@login_required
 def current_todos(request):
     todos = Todo.objects.filter(user=request.user,completed__isnull=True) #Only take those objects whose user attribute matches the current logged in user (Other users cannot see todo objects not created by them) and completed__isnull = True means if the completed field is null i.e not yet completed
     return render(request,'todo/current_todos.html',{'todos':todos})
 
+@login_required
 def completed_todos(request):
     #sorts the objects in reverse order based on completed time and date.
     ##The lastest comes first
@@ -55,8 +59,7 @@ def completed_todos(request):
     todos = Todo.objects.filter(user=request.user,completed__isnull=False).order_by('-completed') #Only take those objects whose user attribute matches the current logged in user (Other users cannot see todo objects not created by them) and completed__isnull = False means if the completed field is not null i.e it is completed
     return render(request,'todo/completed_todos.html',{'todos':todos})
 
-
-
+@login_required
 def view_todo(request,todo_pk):
     todo = get_object_or_404(Todo,pk=todo_pk,user=request.user) #fetch a todo object from the database if the PK of todo is valid and if the object's user is the same as the user currently logged in.
     if request.method=='GET':
@@ -70,6 +73,7 @@ def view_todo(request,todo_pk):
         except ValueError:
             return render(request,'todo/view_todo.html',{'todo':todo,'form':form,'error':'Bad data passed in.'}) #if there is an error then pass it to the view_todo page.
 
+@login_required
 def complete_todo(request,todo_pk):
     todo = get_object_or_404(Todo,pk=todo_pk,user=request.user)
     if request.method=="POST":
@@ -77,6 +81,7 @@ def complete_todo(request,todo_pk):
         todo.save() #save it to the database
         return redirect('current_todos') #redirect the user back to the current todos page
 
+@login_required
 def delete_todo(request,todo_pk):
     todo = get_object_or_404(Todo,pk=todo_pk,user=request.user)
     if request.method=="POST":
@@ -94,6 +99,7 @@ def loginuser(request):
             login(request,user) #if the authentication is successful however, log in the user
             return redirect('current_todos') ##and redirect him/her to the todo list page.
 
+@login_required
 def logoutuser(request):
     if request.method=='POST': #if the method is POST then log out the user and redirect him/her to the home
         logout(request)

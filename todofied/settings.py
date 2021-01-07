@@ -119,3 +119,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = '/login' #this will redirect the user to the login/ url whenever he/she tries to access views that cannot be accessed without a log in. i.e they use @login_required decorator to prevent users who are not logged in to access those pages.
