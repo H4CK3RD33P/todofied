@@ -9,6 +9,7 @@ from django.contrib.auth import logout #this will import Django's redirect funct
 from django.contrib.auth import authenticate #this will import Django's authenticate function which will let the user log in.
 from .forms import TodoForm #this imports the TodoForm which will be passed to create/ through create_todo()
 from .models import Todo #this imports the Todo model class
+from django.utils import timezone #imports Django's timezone module which has timezone related functions and classes.
 # Create your views here.
 
 def home(request):
@@ -59,7 +60,14 @@ def view_todo(request,todo_pk):
             return redirect('current_todos') #redirect the user to the current todos page.
         except ValueError:
             return render(request,'todo/view_todo.html',{'todo':todo,'form':form,'error':'Bad data passed in.'}) #if there is an error then pass it to the view_todo page.
-            
+
+def complete_todo(request,todo_pk):
+    todo = get_object_or_404(Todo,pk=todo_pk,user=request.user)
+    if request.method=="POST":
+        todo.completed = timezone.now() #set the current time as the time the todo gets completed i.e in the completed attribute of Todo object
+        todo.save() #save it to the database
+        return redirect('current_todos') #redirect the user back to the current todos page
+
 def loginuser(request):
     if request.method=="GET":
         return render(request,'todo/loginuser.html',{'form':AuthenticationForm()}) #pass login form to the page.

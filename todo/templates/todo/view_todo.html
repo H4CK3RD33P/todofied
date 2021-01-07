@@ -6,4 +6,8 @@
     {{ form.as_p }}
     <button type='submit'>Save</button>
 </form>
+<form method="POST" action="{% url 'complete_todo' todo.id %}"> <!--this will make a POST to complete_todo view and also passes the primary key of the todo object-->
+    {% csrf_token %}
+    <button type='submit'>Completed</button>
+</form>
 {% endblock %}
