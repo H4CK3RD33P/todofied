@@ -1,6 +1,6 @@
 {% extends 'todo/base.html'%}
 {% block content %}
-<h1>Your To-dos!</h1>
+<h1>Completed To-dos!</h1>
 <ul>
     {% for todo in todos %}
     <li>
@@ -13,6 +13,7 @@
         {% if todo.memo %} <!--If there is some additional information then display it-->
         - {{ todo.memo }}
         {% endif %}
+        ---- <i>completed on {{ todo.completed|date:'l, jS F, Y; fA' }}</i>
         </a>
     </li>
     {% endfor %}
@@ -20,7 +21,7 @@
 <form action="{% url 'create_todo' %}">
     <button type="submit">Create To-Do!</button> <!--Go to the create todos page-->
 </form>
-<form action="{% url 'completed_todos' %}">
-    <button type="submit">Completed To-Dos!</button> <!--Go to the completed todos page-->
+<form action="{% url 'current_todos' %}">
+    <button type="submit">Your To-Dos!</button> <!--Go to the current todos page-->
 </form>
 {% endblock %}

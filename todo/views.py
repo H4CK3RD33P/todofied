@@ -48,6 +48,15 @@ def current_todos(request):
     todos = Todo.objects.filter(user=request.user,completed__isnull=True) #Only take those objects whose user attribute matches the current logged in user (Other users cannot see todo objects not created by them) and completed__isnull = True means if the completed field is null i.e not yet completed
     return render(request,'todo/current_todos.html',{'todos':todos})
 
+def completed_todos(request):
+    #sorts the objects in reverse order based on completed time and date.
+    ##The lastest comes first
+    ###order_by('-completed') #means sorts the objects in reverse i.e ('-') of completed.
+    todos = Todo.objects.filter(user=request.user,completed__isnull=False).order_by('-completed') #Only take those objects whose user attribute matches the current logged in user (Other users cannot see todo objects not created by them) and completed__isnull = False means if the completed field is not null i.e it is completed
+    return render(request,'todo/completed_todos.html',{'todos':todos})
+
+
+
 def view_todo(request,todo_pk):
     todo = get_object_or_404(Todo,pk=todo_pk,user=request.user) #fetch a todo object from the database if the PK of todo is valid and if the object's user is the same as the user currently logged in.
     if request.method=='GET':
