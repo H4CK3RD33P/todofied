@@ -35,4 +35,6 @@ urlpatterns = [
     path('todo/<int:todo_pk>',views.view_todo,name='view_todo'), #takes primary key of the todo object as an url argument
     #complete the todo
     path('todo/<int:todo_pk>/complete',views.complete_todo,name='complete_todo'),
+    #delete the todo
+    path('todo/<int:todo_pk>/delete',views.delete_todo,name='delete_todo'),
 ]

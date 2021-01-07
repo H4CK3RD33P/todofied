@@ -10,4 +10,8 @@
     {% csrf_token %}
     <button type='submit'>Completed</button>
 </form>
+<form method="POST" action="{% url 'delete_todo' todo.id %}"> <!--this will make a POST to delete_todo view and also passes the primary key of the todo object-->
+    {% csrf_token %}
+    <button type='submit'>Delete</button>
+</form>
 {% endblock %}

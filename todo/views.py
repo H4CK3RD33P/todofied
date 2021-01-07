@@ -68,6 +68,12 @@ def complete_todo(request,todo_pk):
         todo.save() #save it to the database
         return redirect('current_todos') #redirect the user back to the current todos page
 
+def delete_todo(request,todo_pk):
+    todo = get_object_or_404(Todo,pk=todo_pk,user=request.user)
+    if request.method=="POST":
+        todo.delete() #delete the todo object from the database
+        return redirect('current_todos') #redirect the user back to the current todos page
+
 def loginuser(request):
     if request.method=="GET":
         return render(request,'todo/loginuser.html',{'form':AuthenticationForm()}) #pass login form to the page.
